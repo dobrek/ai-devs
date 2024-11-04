@@ -11,10 +11,15 @@ check: ## Run code quality tools.
 	@echo "🚀 Linting code: Running pre-commit"
 	@uv run pre-commit run -a
 
-.PHONY: poligon
-poligon: ## Run "POLIGON" task
+.PHONY: polygon
+polygon: ## Run "POLIGON" task
 	@echo "🚀 Running POLIGON task"
-	@uv run app.py
+	@uv run --directory ai_dev3 polygon.py
+
+.PHONY: anti_captcha
+anti_captcha: ## Run "ANTY-CAPTCHA" task
+	@echo "🚀 Running ANTY-CAPTCHA task"
+	@uv run --directory ai_dev3 anti_captcha.py
 
 .PHONY: help
 help:
