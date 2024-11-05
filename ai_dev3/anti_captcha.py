@@ -5,6 +5,20 @@ from decouple import config
 from openai import OpenAI
 from parsel import Selector
 
+
+def main() -> None:
+    print("Task ANTY-CAPTCHA")
+    login_url = "https://xyz.ag3nts.org"
+
+    page = read_page(url=login_url)
+    question = extract_question(html=page)
+    answer = ask_llm(question=question)
+    secure_page = login(url=login_url, captcha=answer)
+    flag = extract_flag(html=secure_page)
+
+    print(f"Result: {flag}")
+
+
 llm_client = OpenAI(api_key=config("OPENAI_API_KEY"))
 
 
@@ -46,19 +60,6 @@ def extract_flag(html: str) -> str:
     matches = re.findall(pattern, html)
     print(f"Extracted flags: {matches}")
     return matches[0]
-
-
-def main() -> None:
-    print("Task ANTY-CAPTCHA")
-    login_url = "https://xyz.ag3nts.org"
-
-    page = read_page(url=login_url)
-    question = extract_question(html=page)
-    answer = ask_llm(question=question)
-    secure_page = login(url=login_url, captcha=answer)
-    flag = extract_flag(html=secure_page)
-
-    print(f"Result: {flag}")
 
 
 if __name__ == "__main__":
