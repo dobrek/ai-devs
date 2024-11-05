@@ -21,6 +21,11 @@ anti_captcha: ## Run "ANTY-CAPTCHA" task
 	@echo "🚀 Running ANTY-CAPTCHA task"
 	@uv run --directory ai_dev3 anti_captcha.py
 
+.PHONY: veryfi
+veryfi: ## Run "VERYFI" task
+	@echo "🚀 Running VERYFI task"
+	@uv run --directory ai_dev3 veryfi.py
+
 .PHONY: help
 help:
 	@uv run python -c "import re; \
