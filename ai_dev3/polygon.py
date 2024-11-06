@@ -5,12 +5,13 @@ from decouple import config
 def main() -> None:
     print("Task POLIGON")
 
-    content = requests.get("https://poligon.aidevs.pl/dane.txt", timeout=10).text
+    polygon_url = config("POLYGON_URL")
+    content = requests.get(f"{polygon_url}/dane.txt", timeout=10).text
     text_lines = content.splitlines()
     print(f"lines: {text_lines}")
 
     data = {"task": "POLIGON", "answer": text_lines, "apikey": config("API_KEY")}
-    response = requests.post("https://poligon.aidevs.pl/verify", json=data, timeout=10)
+    response = requests.post(f"{polygon_url}//verify", json=data, timeout=10)
     if response.status_code == 200:
         print(response.json()["message"])
     else:

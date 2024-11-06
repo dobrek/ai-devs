@@ -27,7 +27,7 @@ def main():
         print(colored("Unfriendly robot.", "red"))
 
 
-def send_message_to_robot(message: RobotMessage, url: str = "https://xyz.ag3nts.org/verify") -> RobotMessage | None:
+def send_message_to_robot(message: RobotMessage, url: str = config("VERYFI_XYZ_URL")) -> RobotMessage | None:
     data = {"msgID": message.msg_id, "text": message.text}
     print("To Robot:", colored(data, "blue"))
     response = requests.post(url, json=data, timeout=10).json()

@@ -8,13 +8,13 @@ from parsel import Selector
 
 def main() -> None:
     print("Task ANTY-CAPTCHA")
-    login_url = "https://xyz.ag3nts.org"
+    login_url = config("ANTI_CAPTCHA_LOGIN_URL")
 
-    page = read_page(url=login_url)
-    question = extract_question(html=page)
-    answer = ask_llm(question=question)
+    page = read_page(login_url)
+    question = extract_question(page)
+    answer = ask_llm(question)
     secure_page = login(url=login_url, captcha=answer)
-    flag = extract_flag(html=secure_page)
+    flag = extract_flag(secure_page)
 
     print(f"Result: {flag}")
 
@@ -55,11 +55,11 @@ def login(url: str, captcha: str) -> str:
     return response.text
 
 
-def extract_flag(html: str) -> str:
+def extract_flag(html: str) -> str | None:
     pattern = r"\{\{FLG:(.*?)\}\}"
     matches = re.findall(pattern, html)
     print(f"Extracted flags: {matches}")
-    return matches[0]
+    return matches[0] if matches else None
 
 
 if __name__ == "__main__":
