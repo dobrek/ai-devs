@@ -26,6 +26,11 @@ veryfi: ## Run "VERYFI" task
 	@echo "🚀 Running VERYFI task"
 	@uv run --directory ai_dev3 veryfi.py
 
+.PHONY: json_report
+json_report: ## Run "JSON" task
+	@echo "🚀 Running JSON task"
+	@uv run --directory ai_dev3 json_report.py
+
 .PHONY: help
 help:
 	@uv run python -c "import re; \

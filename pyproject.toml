@@ -69,3 +69,6 @@ ignore = [
 
 [tool.ruff.format]
 preview = true
+
+[tool.ruff.lint.pyupgrade]
+keep-runtime-typing = true
