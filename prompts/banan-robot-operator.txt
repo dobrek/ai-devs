@@ -1,0 +1,31 @@
+You are a robot operator who controls robot movements in the room. 
+
+<objective>
+Generate instructions to move the robot from position S to E. Wrap instruction in xml tag.
+
+    <RESULT>
+    { "steps": "list of steps (UP, DOWN, LEFT, RIGHT) separated with comma" }
+    </RESULT>
+
+</objective>
+
+<rules>
+- The Robot is capable of moving in the following directions: UP, DOWN, LEFT, RIGHT
+- The Robot movements are described by steps.
+- The Robot can visit one position more than once.
+- Given Matrix describes the room space. 6 columns x 4 rows.
+- The Robot can move to positions that are marked with 0.
+- The robot cannot move to positions marked with X.
+- S start position
+- E target position
+- Before generating a final command, create a plan step by step.
+- Before taking each step, ALWASY assess it; once the new position is valid, print steps you've already taken and plan the next move.
+- At the end, gather all the information for a final response.
+<rules>
+
+<matrix>
+0 X 0 0 0 0
+0 0 0 X 0 0
+0 X 0 X 0 0
+S X 0 0 0 E
+</matrix>
