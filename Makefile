@@ -31,6 +31,11 @@ json_report: ## Run "JSON" task
 	@echo "🚀 Running JSON task"
 	@uv run --directory ai_dev3 json_report.py
 
+.PHONY: censorship
+censorship: ## Run "CENZURA" task
+	@echo "🚀 Running CENZURA task"
+	@uv run --directory ai_dev3 censorship.py
+
 .PHONY: help
 help:
 	@uv run python -c "import re; \

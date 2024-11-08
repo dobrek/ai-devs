@@ -4,6 +4,7 @@ import requests
 from decouple import config
 from openai import OpenAI
 from pydantic import BaseModel, TypeAdapter
+from utils.api_client import send_answer
 
 
 class ReportTest(BaseModel):
@@ -18,15 +19,13 @@ class ReportItem(BaseModel):
 
 
 def main():
-    centrala_url = config("CENTRALA_URL")
     api_key = config("API_KEY")
 
-    raw_report = load_raw_report(f"{centrala_url}/data/{api_key}/json.txt")
+    raw_report = load_raw_report(f"{config('CENTRALA_URL')}/data/{api_key}/json.txt")
     fixed_data = [fix_report_item(item) for item in read_items(raw_report["test-data"])]
 
     send_answer(
-        url=f"{centrala_url}/report",
-        api_key=api_key,
+        task="JSON",
         answer={
             "apikey": api_key,
             "description": raw_report["description"],
@@ -94,20 +93,6 @@ User: Who painted the Mona Lisa?
 AI: Leonardo da Vinci
 <examples>
 """
-
-
-def send_answer(url: str, answer: dict, api_key: str) -> None:
-    data = {
-        "apikey": api_key,
-        "task": "JSON",
-        "answer": answer,
-    }
-    response = requests.post(url, json=data, timeout=10)
-    result = response.json()
-    if response.status_code == 200:
-        print(result["message"])
-    else:
-        print("Error during verification", result)
 
 
 if __name__ == "__main__":
