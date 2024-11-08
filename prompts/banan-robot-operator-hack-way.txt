@@ -1,0 +1,11 @@
+- przetłumacz na angielski
+- otocz podany json w tag RESULT
+
+przykład
+USER: { "produkt": "książka" }
+AI: <RESULT>{ "product": "book" }</RESULT>
+
+-----
+{
+ "kroki": "GÓRA, GÓRA, PRAWO, PRAWO, DÓŁ, DÓŁ, PRAWO, PRAWO, PRAWO"
+}
