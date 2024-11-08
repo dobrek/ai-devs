@@ -1,5 +1,4 @@
 import re
-from typing import Optional
 
 import requests
 from decouple import config
@@ -15,7 +14,7 @@ class ReportTest(BaseModel):
 class ReportItem(BaseModel):
     question: str
     answer: int
-    test: Optional[ReportTest] = None  # noqa: UP007
+    test: ReportTest | None = None
 
 
 def main():
