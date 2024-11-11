@@ -36,6 +36,11 @@ censorship: ## Run "CENZURA" task
 	@echo "🚀 Running CENZURA task"
 	@uv run --directory ai_dev3 censorship.py
 
+.PHONY: run
+run: ## Run task with the name passed in the task variable
+	@echo "🚀 Running ${task} task"
+	@uv run --directory ai_dev3 ${task}.py
+
 .PHONY: help
 help:
 	@uv run python -c "import re; \
