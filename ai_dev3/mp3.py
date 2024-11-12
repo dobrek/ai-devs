@@ -95,9 +95,9 @@ Poniżej lista zeznań w sprawie profesora matematyki Andrzeja Maja
 user_prompt = """
 - Przeanalizuj podane zeznania pod kątem informacji o miejscu pracy profesora matematyki Andrzeja Maja.
 - Pamiętaj, że zeznania  mogą być sprzeczne, niektórzy z nich mogą się mylić, a inni odpowiadać w dość dziwaczny sposób.
+- Weź pod uwagę akademicki charakter jego pracy, oraz fakt, że struktura uczelni opiera się na wydziałach i instytutach.
 - Wypisz wnioski i fakty jakie udało Ci się ustalić.
-- Weź pod uwagę, że organizacja dla której pracuje Andrzej Maj może mieć kilka lokalizacji.
-- Na ich podstawie określ ulice na jakiej mieści się miejsce pracy Andrzeja Maja.
+- Zastanów się i na podstawie zebranych informacji określ ulice na jakiej mieści się miejsce pracy Andrzeja Maja.
 - Wypisz nazwę ulicy w tagu XML <NAZWA_ULICY>Nazwa ulicy</NAZWA_ULICY>
 """
 
