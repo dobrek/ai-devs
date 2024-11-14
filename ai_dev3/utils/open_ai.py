@@ -10,10 +10,13 @@ client = OpenAI(api_key=config("OPENAI_API_KEY"))
 
 
 def transcribe(file_path: str, promopt: str | None = None) -> str:
+    print("transcribing ...", colored(file_path, "cyan"))
     with open(file_path, "rb") as audio_file:
-        return client.audio.transcriptions.create(
+        text = client.audio.transcriptions.create(
             model="whisper-1", file=audio_file, response_format="text", prompt=promopt
         )
+        print("transcribe:", colored(text, "green"))
+        return text
 
 
 def send_chat_messages(
