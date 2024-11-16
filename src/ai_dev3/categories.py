@@ -8,9 +8,10 @@ from decouple import config
 from openai import OpenAI
 from pydantic import BaseModel
 from termcolor import colored
-from utils.api_client import send_answer
-from utils.files import read_as_base64, read_as_text
-from utils.open_ai import send_chat_messages, transcribe
+
+from .utils.api_client import send_answer
+from .utils.files import read_as_base64, read_as_text
+from .utils.open_ai import send_chat_messages, transcribe
 
 
 class ReportFile(BaseModel):
@@ -32,29 +33,6 @@ class CategoriezedReport(BaseModel):
 
 class LlmCategoryResponse(BaseModel):
     category: CategoryEnum
-
-
-def main():
-    files_folder = "data/categories_2"
-    try:
-        _download_reports(files_folder, f"{config('CENTRALA_URL')}/dane/pliki_z_fabryki.zip")
-
-        text = _load_text_reports(files_folder)
-        image = _load_image_reports(files_folder)
-        recordings = _load_recorded_reports(files_folder)
-        all_reports = text + image + recordings
-        categorized_reports = [_categorize_report(report) for report in all_reports]
-
-        result = {
-            "people": [item.report.name for item in categorized_reports if item.category == CategoryEnum.people],
-            "hardware": [item.report.name for item in categorized_reports if item.category == CategoryEnum.hardware],
-        }
-        send_answer(answer=result, task="kategorie")
-
-    except Exception as error:
-        print("Error :(", colored(error, "red"))
-    finally:
-        _clean_reports(files_folder)
 
 
 def _load_text_reports(folder: str) -> list[ReportFile]:
@@ -178,6 +156,29 @@ def _download_reports(folder: str, url: str):
     print(f"Unzipping  to {folder}")
     with zipfile.ZipFile(file_path, "r") as zip_ref:
         zip_ref.extractall(folder)
+
+
+def main():
+    files_folder = "data/categories"
+    try:
+        _download_reports(files_folder, f"{config('CENTRALA_URL')}/dane/pliki_z_fabryki.zip")
+
+        text = _load_text_reports(files_folder)
+        image = _load_image_reports(files_folder)
+        recordings = _load_recorded_reports(files_folder)
+        all_reports = text + image + recordings
+        categorized_reports = [_categorize_report(report) for report in all_reports]
+
+        result = {
+            "people": [item.report.name for item in categorized_reports if item.category == CategoryEnum.people],
+            "hardware": [item.report.name for item in categorized_reports if item.category == CategoryEnum.hardware],
+        }
+        send_answer(answer=result, task="kategorie")
+
+    except Exception as error:
+        print("Error :(", colored(error, "red"))
+    finally:
+        _clean_reports(files_folder)
 
 
 if __name__ == "__main__":

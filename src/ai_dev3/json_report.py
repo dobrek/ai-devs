@@ -2,9 +2,10 @@ import re
 
 import requests
 from decouple import config
-from openai import OpenAI
 from pydantic import BaseModel, TypeAdapter
-from utils.api_client import send_answer
+
+from .utils.api_client import send_answer
+from .utils.open_ai import send_chat_messages
 
 
 class ReportTest(BaseModel):
@@ -18,24 +19,7 @@ class ReportItem(BaseModel):
     test: ReportTest | None = None
 
 
-def main():
-    api_key = config("API_KEY")
-
-    raw_report = load_raw_report(f"{config('CENTRALA_URL')}/data/{api_key}/json.txt")
-    fixed_data = [fix_report_item(item) for item in read_items(raw_report["test-data"])]
-
-    send_answer(
-        task="JSON",
-        answer={
-            "apikey": api_key,
-            "description": raw_report["description"],
-            "copyright": raw_report["copyright"],
-            "test-data": [item.model_dump(exclude_none=True) for item in fixed_data],
-        },
-    )
-
-
-def load_raw_report(url: str) -> dict:
+def _load_raw_report(url: str) -> dict:
     return requests.get(url, timeout=10).json()
 
 
@@ -43,36 +27,35 @@ def read_items(value: list[dict]) -> list[ReportItem]:
     return TypeAdapter(list[ReportItem]).validate_python(value)
 
 
-def fix_report_item(item: ReportItem) -> ReportItem:
+def _fix_report_item(item: ReportItem) -> ReportItem:
     return ReportItem(
-        question=item.question, answer=calculate_sum(item.question), test=pass_test(item.test.q) if item.test else None
+        question=item.question,
+        answer=_calculate(item.question),
+        test=_answer_question(item.test.q) if item.test else None,
     )
 
 
-def calculate_sum(question: str) -> int:
+def _calculate(question: str) -> int:
     numbers = [int(num) for num in re.findall(r"\d+", question)]
     return sum(numbers)
 
 
-def pass_test(question: str) -> ReportTest:
-    return ReportTest(q=question, a=ask_llm(question))
+def _answer_question(question: str) -> ReportTest:
+    return ReportTest(q=question, a=_ask_llm(question))
 
 
-def ask_llm(question: str) -> str:
+def _ask_llm(question: str) -> str:
     print(f"Asking LLM: {question}")
-    completion = llm_client.chat.completions.create(
+    answer = send_chat_messages(
         model="gpt-4o-mini",
         messages=[
             {"role": "system", "content": system_prompt},
             {"role": "user", "content": question},
         ],
     )
-    answer = completion.choices[0].message.content
     print(f"LLM Answer: {answer}")
     return answer
 
-
-llm_client = OpenAI(api_key=config("OPENAI_API_KEY"))
 
 system_prompt = """
 You are a helpful assistant. Please answer the following question in an extremely concise way.
@@ -93,6 +76,23 @@ User: Who painted the Mona Lisa?
 AI: Leonardo da Vinci
 <examples>
 """
+
+
+def main():
+    api_key = config("API_KEY")
+
+    raw_report = _load_raw_report(f"{config('CENTRALA_URL')}/data/{api_key}/json.txt")
+    fixed_data = [_fix_report_item(item) for item in read_items(raw_report["test-data"])]
+
+    send_answer(
+        task="JSON",
+        answer={
+            "apikey": api_key,
+            "description": raw_report["description"],
+            "copyright": raw_report["copyright"],
+            "test-data": [item.model_dump(exclude_none=True) for item in fixed_data],
+        },
+    )
 
 
 if __name__ == "__main__":

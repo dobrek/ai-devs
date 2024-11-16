@@ -1,17 +1,9 @@
 import requests
 from decouple import config
 from termcolor import colored
-from utils.api_client import send_answer
-from utils.open_ai import generate_image
 
-
-def main() -> None:
-    try:
-        robot_info = _get_robot_info()
-        image_url = _generate_robot_image(robot_info["description"])
-        send_answer(task="robotid", answer=image_url)
-    except Exception as e:
-        print("Error :(", colored(e, "red"))
+from .utils.api_client import send_answer
+from .utils.open_ai import generate_image
 
 
 def _get_robot_info() -> dict:
@@ -42,6 +34,16 @@ The purpose is to generate a realistic image of a fictional security robot based
 {description}
 </description>
 """
+
+
+def main() -> None:
+    try:
+        robot_info = _get_robot_info()
+        image_url = _generate_robot_image(robot_info["description"])
+        send_answer(task="robotid", answer=image_url)
+    except Exception as e:
+        print("Error :(", colored(e, "red"))
+
 
 if __name__ == "__main__":
     main()

@@ -11,35 +11,11 @@ check: ## Run code quality tools.
 	@echo "🚀 Linting code: Running pre-commit"
 	@uv run pre-commit run -a
 
-.PHONY: polygon
-polygon: ## Run "POLIGON" task
-	@echo "🚀 Running POLIGON task"
-	@uv run --directory ai_dev3 polygon.py
-
-.PHONY: anti_captcha
-anti_captcha: ## Run "ANTY-CAPTCHA" task
-	@echo "🚀 Running ANTY-CAPTCHA task"
-	@uv run --directory ai_dev3 anti_captcha.py
-
-.PHONY: veryfi
-veryfi: ## Run "VERYFI" task
-	@echo "🚀 Running VERYFI task"
-	@uv run --directory ai_dev3 veryfi.py
-
-.PHONY: json_report
-json_report: ## Run "JSON" task
-	@echo "🚀 Running JSON task"
-	@uv run --directory ai_dev3 json_report.py
-
-.PHONY: censorship
-censorship: ## Run "CENZURA" task
-	@echo "🚀 Running CENZURA task"
-	@uv run --directory ai_dev3 censorship.py
-
 .PHONY: run
 run: ## Run task with the name passed in the task variable
 	@echo "🚀 Running ${task} task"
-	@uv run --directory ai_dev3 ${task}.py
+	@uv run ${task}
+
 
 .PHONY: help
 help:

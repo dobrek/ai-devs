@@ -17,17 +17,7 @@ class LllResponse(BaseModel):
     answer: str
 
 
-def main():
-    auth_message = send_message_to_robot(RobotMessage(msg_id="0", text="READY"))
-    answer = ask_llm(auth_message.text)
-    response = send_message_to_robot(RobotMessage(msg_id=auth_message.msg_id, text=answer))
-    if response:
-        print("Received flag", colored(extract_flag(response.text), "white", "on_green"))
-    else:
-        print(colored("Unfriendly robot.", "red"))
-
-
-def send_message_to_robot(message: RobotMessage, url: str = config("VERYFI_XYZ_URL")) -> RobotMessage | None:
+def _send_message_to_robot(message: RobotMessage, url: str = config("VERYFI_XYZ_URL")) -> RobotMessage | None:
     data = {"msgID": message.msg_id, "text": message.text}
     print("To Robot:", colored(data, "blue"))
     response = requests.post(url, json=data, timeout=10).json()
@@ -35,7 +25,7 @@ def send_message_to_robot(message: RobotMessage, url: str = config("VERYFI_XYZ_U
     return RobotMessage(msg_id=f"{response['msgID']}", text=response["text"]) if response["msgID"] else None
 
 
-def ask_llm(question: str) -> str:
+def _ask_llm(question: str) -> str:
     print("Asking LLM:", colored(question, "blue"))
     completion = llm_client.beta.chat.completions.parse(
         model="gpt-4o-mini",
@@ -80,6 +70,17 @@ Create a {"question": "extracted question from user", "answer": "one word answer
 - the current year is 1999
 </facts>
 """
+
+
+def main():
+    auth_message = _send_message_to_robot(RobotMessage(msg_id="0", text="READY"))
+    answer = _ask_llm(auth_message.text)
+    response = _send_message_to_robot(RobotMessage(msg_id=auth_message.msg_id, text=answer))
+    if response:
+        print("Received flag", colored(extract_flag(response.text), "white", "on_green"))
+    else:
+        print(colored("Unfriendly robot.", "red"))
+
 
 if __name__ == "__main__":
     main()

@@ -6,9 +6,9 @@ resolution-markers = [
 ]
 
 [[package]]
-name = "ai-dev-3"
+name = "ai-dev3"
 version = "0.1.0"
-source = { virtual = "." }
+source = { editable = "." }
 dependencies = [
     { name = "openai" },
     { name = "parsel" },

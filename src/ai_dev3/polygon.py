@@ -1,6 +1,7 @@
 import requests
 from decouple import config
-from utils.api_client import send_answer
+
+from .utils.api_client import send_answer
 
 
 def main() -> None:

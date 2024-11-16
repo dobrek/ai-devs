@@ -2,13 +2,8 @@ import requests
 from decouple import config
 from openai import OpenAI
 from termcolor import colored
-from utils.api_client import send_answer
 
-
-def task() -> None:
-    raw_text = _get_text()
-    censored_text = _censor_text(raw_text)
-    send_answer(task="CENZURA", answer=censored_text)
+from .utils.api_client import send_answer
 
 
 def _get_text() -> str:
@@ -58,6 +53,13 @@ USER: Dane osoby podejrzanej: Ania Wyszkoń. Zamieszkała w Opolu przy ulicy Cie
 AI: Dane osoby podejrzanej: XXX. Zamieszkała w XXX przy ulicy XXX. Ma XXX lat.
 </examples>
 """
+
+
+def task() -> None:
+    raw_text = _get_text()
+    censored_text = _censor_text(raw_text)
+    send_answer(task="CENZURA", answer=censored_text)
+
 
 if __name__ == "__main__":
     task()

@@ -4,26 +4,9 @@ import zipfile
 
 import requests
 from decouple import config
-from utils.api_client import send_answer
-from utils.open_ai import send_chat_messages, transcribe
 
-
-def task():
-    recordings_folder = "mp3_files"
-    try:
-        _create_recordings_folder(recordings_folder)
-        _download_recordings(recordings_folder, f"{config('CENTRALA_URL')}/dane/przesluchania.zip")
-        testimonies = _build_testimonies(recordings_folder)
-        answer = _ask_llm(testimonies)
-        street_name = _extract_street_name(answer)
-        if street_name:
-            send_answer(task="MP3", answer=street_name)
-        else:
-            print("Street name not found")
-    except Exception as e:
-        print("Error :(", e)
-    finally:
-        _clean_recordings_folder(recordings_folder)
+from .utils.api_client import send_answer
+from .utils.open_ai import send_chat_messages, transcribe
 
 
 def _create_recordings_folder(folder_name: str):
@@ -110,5 +93,23 @@ def _extract_street_name(text: str) -> str | None:
         return None
 
 
+def main():
+    recordings_folder = "mp3_files"
+    try:
+        _create_recordings_folder(recordings_folder)
+        _download_recordings(recordings_folder, f"{config('CENTRALA_URL')}/dane/przesluchania.zip")
+        testimonies = _build_testimonies(recordings_folder)
+        answer = _ask_llm(testimonies)
+        street_name = _extract_street_name(answer)
+        if street_name:
+            send_answer(task="MP3", answer=street_name)
+        else:
+            print("Street name not found")
+    except Exception as e:
+        print("Error :(", e)
+    finally:
+        _clean_recordings_folder(recordings_folder)
+
+
 if __name__ == "__main__":
-    task()
+    main()

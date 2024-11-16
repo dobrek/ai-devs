@@ -20,7 +20,7 @@ It will create a virtual environment and install all necessary dependencies.
 To run the the task, execute the following command:
 
 ```
-make <task-name>
+make run task=<task-name>
 ```
 
 List of available task commands:

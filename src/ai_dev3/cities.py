@@ -3,20 +3,11 @@ import json
 import os
 
 from termcolor import colored
-from utils.open_ai import send_chat_messages
+
+from .utils.open_ai import send_chat_messages
 
 
-def task():
-    images_folder = "data/cities"
-    try:
-        images = load_images(images_folder)
-        answer = ask_ai(images)
-        print("City name:", colored(answer, "green"))
-    except Exception as error:
-        print("Error :(", colored(error, "red"))
-
-
-def load_images(images_folder):
+def _load_images(images_folder):
     return [read_as_base64(f"{images_folder}/{file}") for file in os.listdir(images_folder)]
 
 
@@ -26,7 +17,7 @@ def read_as_base64(file_path: str) -> str:
         return base64.b64encode(image_file.read()).decode("utf-8")
 
 
-def ask_ai(images: list[str]) -> dict:
+def _ask_ai(images: list[str]) -> dict:
     print("asking AI ...")
     response = send_chat_messages(
         model="gpt-4o",
@@ -88,6 +79,17 @@ AI: {"city": "NO DATA AVAILABLE"}
 
 Ensure the determinations are based strictly on matching the extracted data to known details of Polish cities, particularly those renowned for historic forts and granaries.
 """
+
+
+def task():
+    images_folder = "data/cities"
+    try:
+        images = _load_images(images_folder)
+        answer = _ask_ai(images)
+        print("City name:", colored(answer, "green"))
+    except Exception as error:
+        print("Error :(", colored(error, "red"))
+
 
 if __name__ == "__main__":
     task()
