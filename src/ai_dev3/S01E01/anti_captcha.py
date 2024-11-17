@@ -4,7 +4,7 @@ import requests
 from decouple import config
 from parsel import Selector
 
-from .utils.open_ai import send_chat_messages
+from ai_dev3.utils.open_ai import send_chat_messages
 
 
 def _read_page(url: str) -> str:

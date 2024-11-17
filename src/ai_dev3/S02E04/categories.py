@@ -9,9 +9,9 @@ from openai import OpenAI
 from pydantic import BaseModel
 from termcolor import colored
 
-from .utils.api_client import send_answer
-from .utils.files import read_as_base64, read_as_text
-from .utils.open_ai import send_chat_messages, transcribe
+from ai_dev3.utils.api_client import send_answer
+from ai_dev3.utils.files import read_as_base64, read_as_text
+from ai_dev3.utils.open_ai import send_chat_messages, transcribe
 
 
 class ReportFile(BaseModel):

@@ -4,8 +4,8 @@ import requests
 from decouple import config
 from pydantic import BaseModel, TypeAdapter
 
-from .utils.api_client import send_answer
-from .utils.open_ai import send_chat_messages
+from ai_dev3.utils.api_client import send_answer
+from ai_dev3.utils.open_ai import send_chat_messages
 
 
 class ReportTest(BaseModel):

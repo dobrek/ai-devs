@@ -5,8 +5,8 @@ import zipfile
 import requests
 from decouple import config
 
-from .utils.api_client import send_answer
-from .utils.open_ai import send_chat_messages, transcribe
+from ai_dev3.utils.api_client import send_answer
+from ai_dev3.utils.open_ai import send_chat_messages, transcribe
 
 
 def _create_recordings_folder(folder_name: str):

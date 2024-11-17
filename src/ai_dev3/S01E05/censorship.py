@@ -3,7 +3,7 @@ from decouple import config
 from openai import OpenAI
 from termcolor import colored
 
-from .utils.api_client import send_answer
+from ai_dev3.utils.api_client import send_answer
 
 
 def _get_text() -> str:

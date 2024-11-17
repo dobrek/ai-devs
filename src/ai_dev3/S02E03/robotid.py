@@ -2,8 +2,8 @@ import requests
 from decouple import config
 from termcolor import colored
 
-from .utils.api_client import send_answer
-from .utils.open_ai import generate_image
+from ai_dev3.utils.api_client import send_answer
+from ai_dev3.utils.open_ai import generate_image
 
 
 def _get_robot_info() -> dict:

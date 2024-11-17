@@ -28,14 +28,14 @@ build-backend = "hatchling.build"
 
 [project.scripts]
 polygon = "ai_dev3.polygon:main"
-anti_captcha = "ai_dev3.anti_captcha:main"
-cities = "ai_dev3.cities:task"
-censorship = "ai_dev3.censorship:task"
-json_report = "ai_dev3.json_report:main"
-mp3 = "ai_dev3.mp3:main"
-veryfi = "ai_dev3.veryfi:main"
-robotid = "ai_dev3.robotid:main"
-categories = "ai_dev3.categories:main"
+S01E01 = "ai_dev3.S01E01.anti_captcha:main"
+S01E02 = "ai_dev3.S01E02.veryfi:main"
+S01E03 = "ai_dev3.S01E03.json_report:main"
+S01E05 = "ai_dev3.S01E05.censorship:task"
+S02E01 = "ai_dev3.S02E01.mp3:main"
+S02E02 = "ai_dev3.S02E02.cities:task"
+S02E03 = "ai_dev3.S02E03.robotid:main"
+S02E04 = "ai_dev3.S02E04.categories:main"
 S02E05 = "ai_dev3.S02E05.main:main"
 
 [tool.ruff]

@@ -4,7 +4,7 @@ import os
 
 from termcolor import colored
 
-from .utils.open_ai import send_chat_messages
+from ai_dev3.utils.open_ai import send_chat_messages
 
 
 def _load_images(images_folder):
