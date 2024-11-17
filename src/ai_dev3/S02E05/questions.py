@@ -8,7 +8,7 @@ from termcolor import colored
 from .types import AnswerQuestion, ImageInfo, Question, RecordingInfo
 
 sysyem_prompt_question_tpl = """
-You are a helpful assistant. Please answer the user question in a very concise way based on the provided article. There are additional sections that provide descriptions and context for the images and recordings used in the article.
+You are a helpful assistant. Please answer the user question in a concise way based on the provided article. There are additional sections that provide descriptions and context for the images and recordings used in the article.
 
 <article>
 {article}
