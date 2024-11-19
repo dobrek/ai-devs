@@ -5,8 +5,10 @@ description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
+    "aiofiles>=24.1.0",
     "asyncio>=3.4.3",
     "httpx>=0.27.2",
+    "langfuse>=2.53.9",
     "markdownify>=0.13.1",
     "openai>=1.53.1",
     "parsel>=1.9.1",
@@ -37,6 +39,7 @@ S02E02 = "ai_dev3.S02E02.cities:task"
 S02E03 = "ai_dev3.S02E03.robotid:main"
 S02E04 = "ai_dev3.S02E04.categories:main"
 S02E05 = "ai_dev3.S02E05.main:main"
+S03E01 = "ai_dev3.S03E01.main:main"
 
 [tool.ruff]
 target-version = "py312"
