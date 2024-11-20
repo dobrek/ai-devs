@@ -16,6 +16,11 @@ run: ## Run task with the name passed in the task variable
 	@echo "🚀 Running ${task} task"
 	@uv run ${task}
 
+.PHONY: qdrant
+qdrant: ## Run qdrant - vector search engine
+	@echo "🚀 Running ${task} task"
+	@docker run -p 6333:6333 -p 6334:6334 -d --name qdrant-ai-devs -v ./data/qdrant_storage:/qdrant/storage:z qdrant/qdrant
+
 
 .PHONY: help
 help:

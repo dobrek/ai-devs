@@ -27,7 +27,7 @@ async def download_file(url: str, file_name: str, folder: str) -> str:
     return file_path
 
 
-def unzip(file_path: str, folder: str):
-    print(f"Unzipping  to {folder}")
+def unzip(file_path: str, folder: str, password: str | None = None):
+    print(f"Unzipping {file_path} to {folder}")
     with zipfile.ZipFile(file_path, "r") as zip_ref:
-        zip_ref.extractall(folder)
+        zip_ref.extractall(folder, pwd=bytes(password, "utf-8") if password else None)

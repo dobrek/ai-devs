@@ -1,7 +1,7 @@
-from collections.abc import Iterable
+from collections.abc import Awaitable, Callable, Iterable
 
 from decouple import config
-from openai import NOT_GIVEN, NotGiven, OpenAI
+from openai import NOT_GIVEN, AsyncOpenAI, NotGiven, OpenAI
 from openai.types import ResponseFormatJSONObject
 from openai.types.chat import ChatCompletionMessageParam
 from termcolor import colored
@@ -40,3 +40,21 @@ def generate_image(prompt: str, width: int, height: int, model: str = "dall-e-3"
     )
     print("Generated image:", colored(response.data, "blue"))
     return response.data[0].url
+
+
+async def create_embeddings(text: str, client: AsyncOpenAI) -> list[float]:
+    response = await client.embeddings.create(
+        model="text-embedding-3-large",
+        input=text,
+    )
+    return response.data[0].embedding
+
+
+EmbeddingsFunction = Callable[[str], Awaitable[list[float]]]
+
+
+def embeddings_function(client: AsyncOpenAI) -> EmbeddingsFunction:
+    async def _embeddings(text: str) -> list[float]:
+        return await create_embeddings(text, client)
+
+    return _embeddings

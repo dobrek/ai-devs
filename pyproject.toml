@@ -7,6 +7,7 @@ requires-python = ">=3.12"
 dependencies = [
     "aiofiles>=24.1.0",
     "asyncio>=3.4.3",
+    "fastembed>=0.4.2",
     "httpx>=0.27.2",
     "langfuse>=2.53.9",
     "markdownify>=0.13.1",
@@ -14,8 +15,10 @@ dependencies = [
     "parsel>=1.9.1",
     "pydantic>=2.9.2",
     "python-decouple>=3.8",
+    "qdrant-client>=1.12.1",
     "requests>=2.32.3",
     "termcolor>=2.5.0",
+    "uuid>=1.30",
 ]
 
 [dependency-groups]
@@ -40,6 +43,7 @@ S02E03 = "ai_dev3.S02E03.robotid:main"
 S02E04 = "ai_dev3.S02E04.categories:main"
 S02E05 = "ai_dev3.S02E05.main:main"
 S03E01 = "ai_dev3.S03E01.main:main"
+S03E02 = "ai_dev3.S03E02.main:main"
 
 [tool.ruff]
 target-version = "py312"
