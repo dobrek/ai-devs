@@ -1,4 +1,4 @@
-from neo4j import AsyncGraphDatabase, AsyncResult
+from neo4j import AsyncGraphDatabase, AsyncManagedTransaction, AsyncResult
 from termcolor import colored
 
 from .types import User, UsersConnection
@@ -8,20 +8,24 @@ class UsersGraphs:
     def __init__(self, uri: str, username: str, password: str) -> None:
         self.driver = AsyncGraphDatabase.driver(uri, auth=(username, password))
 
-    async def veryfy_connection(self):
+    async def init_with_data(self, users: list[User], connections: list[UsersConnection]):
+        await self._veryfy_connection()
+        async with self.driver.session() as session:
+            await session.execute_write(self._clear_all)
+            await session.execute_write(self._create_users, users)
+            await session.execute_write(self._make_connections, connections)
+
+    async def _veryfy_connection(self):
         await self.driver.verify_connectivity()
 
-    async def clear_all(self):
-        async with self.driver.session() as session:
-            await session.run("MATCH (u:User) DETACH DELETE u")
-            print(colored("All users deleted", "yellow"))
+    async def _clear_all(self, tx: AsyncManagedTransaction):
+        result = await tx.run("MATCH (u:User) DETACH DELETE u")
+        summary = await result.consume()
+        print(colored(f"Deleted nodes: {summary.counters.nodes_deleted}", "yellow"))
+        print(colored(f"Deleted relationships: {summary.counters.relationships_deleted}", "yellow"))
 
-    async def populate(self, users: list[User], connections: list[UsersConnection]):
-        await self._create_users(users)
-        await self._make_connections(connections)
-
-    async def _create_users(self, users: list[User]):
-        _, summary, __ = await self.driver.execute_query(
+    async def _create_users(self, tx: AsyncManagedTransaction, users: list[User]):
+        result = await tx.run(
             """
             UNWIND $users AS user
             MERGE (u:User {id: user.id})
@@ -29,10 +33,11 @@ class UsersGraphs:
             """,
             users=[user.model_dump() for user in users],
         )
+        summary = await result.consume()
         print(colored(f"Users created: {summary.counters.nodes_created}", "cyan"))
 
-    async def _make_connections(self, connections: list[UsersConnection]):
-        _, summary, __ = await self.driver.execute_query(
+    async def _make_connections(self, tx: AsyncManagedTransaction, connections: list[UsersConnection]):
+        result = await tx.run(
             """
                 UNWIND $connections AS connection
                 MATCH (u_a:User {id: connection.a_id})
@@ -41,6 +46,7 @@ class UsersGraphs:
                 """,
             connections=[{"a_id": connection.user1_id, "b_id": connection.user2_id} for connection in connections],
         )
+        summary = await result.consume()
         print(colored(f"Relationships created: {summary.counters.relationships_created}", "cyan"))
 
     async def find_shortest_path(self, name_a, name_b) -> list[User] | None:
