@@ -18,8 +18,13 @@ run: ## Run task with the name passed in the task variable
 
 .PHONY: qdrant
 qdrant: ## Run qdrant - vector search engine
-	@echo "🚀 Running ${task} task"
-	@docker run -p 6333:6333 -p 6334:6334 -d --name qdrant-ai-devs -v ./data/qdrant_storage:/qdrant/storage:z qdrant/qdrant
+	@echo "🚀 Running qdrant instance"
+	@docker run -p 6333:6333 -p 6334:6334 -d --name aidevs3-qdrant -v ./data/qdrant_storage:/qdrant/storage:z qdrant/qdrant
+
+.PHONY: neo4j
+neo4j: ## Run noe4j - graph database
+	@echo "🚀 Running neo4j instance"
+	docker run -p 7474:7474 -p7687:7687 -d --name aidevs3-neo4j -v ./data/neo4j:/data neo4j
 
 
 .PHONY: help

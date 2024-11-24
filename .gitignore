@@ -8,6 +8,7 @@ wheels/
 
 # qdrant_storage
 data/qdrant_storage
+data/neo4j
 
 .env
 

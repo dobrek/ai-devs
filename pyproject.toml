@@ -11,6 +11,7 @@ dependencies = [
     "httpx>=0.27.2",
     "langfuse>=2.53.9",
     "markdownify>=0.13.1",
+    "neo4j>=5.26.0",
     "openai>=1.53.1",
     "parsel>=1.9.1",
     "pydantic>=2.9.2",
@@ -46,6 +47,7 @@ S03E01 = "ai_dev3.S03E01.main:main"
 S03E02 = "ai_dev3.S03E02.main:main"
 S03E03 = "ai_dev3.S03E03.main:main"
 S03E04 = "ai_dev3.S03E04.main:main"
+S03E05 = "ai_dev3.S03E05.main:main"
 
 [tool.ruff]
 target-version = "py312"
