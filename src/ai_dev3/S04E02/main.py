@@ -21,7 +21,7 @@ def _load_samples(filename: str) -> list[Sample]:
     return [_parse_line(line) for line in samples]
 
 
-def _ask_llm_for_verification(item: str) -> bool:
+def _is_valid(item: str) -> bool:
     print("Checking", colored(item, "yellow"))
     result = send_chat_messages(
         messages=[{"role": "system", "content": "S04EO2_Custom_Classification"}, {"role": "user", "content": item}],
@@ -33,7 +33,7 @@ def _ask_llm_for_verification(item: str) -> bool:
 
 def main():
     samples_to_verify = _load_samples("data/verify.txt")
-    result = [sample.id for sample in samples_to_verify if _ask_llm_for_verification(sample.text)]
+    result = [sample.id for sample in samples_to_verify if _is_valid(sample.text)]
     send_answer(task="research", answer=result)
 
 
