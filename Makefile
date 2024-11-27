@@ -26,6 +26,11 @@ neo4j: ## Run noe4j - graph database
 	@echo "🚀 Running neo4j instance"
 	docker run -p 7474:7474 -p7687:7687 -d --name aidevs3-neo4j -v ./data/neo4j:/data neo4j
 
+.PHONY: fine-tuning
+fine-tuning: ## Prepare the data for fine-tuning
+	@echo "🚀 Running fine-tuning data preparation"
+	uv run --directory src/ai_dev3/S04E02/ fine_tuning_data.py
+
 
 .PHONY: help
 help:

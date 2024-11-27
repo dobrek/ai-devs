@@ -49,6 +49,7 @@ S03E03 = "ai_dev3.S03E03.main:main"
 S03E04 = "ai_dev3.S03E04.main:main"
 S03E05 = "ai_dev3.S03E05.main:main"
 S04E01 = "ai_dev3.S04E01.main:main"
+S04E02 = "ai_dev3.S04E02.main:main"
 
 [tool.ruff]
 target-version = "py312"
