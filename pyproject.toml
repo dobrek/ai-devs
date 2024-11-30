@@ -8,6 +8,7 @@ dependencies = [
     "aiofiles>=24.1.0",
     "asyncio>=3.4.3",
     "fastembed>=0.4.2",
+    "flask>=3.1.0",
     "httpx>=0.27.2",
     "langfuse>=2.53.9",
     "markdownify>=0.13.1",
@@ -51,6 +52,8 @@ S03E05 = "ai_dev3.S03E05.main:main"
 S04E01 = "ai_dev3.S04E01.main:main"
 S04E02 = "ai_dev3.S04E02.main:main"
 S04E03 = "ai_dev3.S04E03.main:main"
+S04E04Api = "ai_dev3.S04E04.rest_api:run_server"
+S04E04 = "ai_dev3.S04E04.task:main"
 
 [tool.ruff]
 target-version = "py312"

@@ -31,6 +31,10 @@ fine-tuning: ## Prepare the data for fine-tuning
 	@echo "🚀 Running fine-tuning data preparation"
 	uv run --directory src/ai_dev3/S04E02/ fine_tuning_data.py
 
+.PHONY: ngrok
+ngrok: ## Run ngrok to expose the local server
+	@echo "🚀 Run ngrok to expose the local server"
+	ngrok http 5002
 
 .PHONY: help
 help:
